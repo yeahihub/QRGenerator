@@ -66,7 +66,7 @@
   const imgBoxImage = document.getElementById("imgBoxImage");
   const imageButton = document.getElementById("imageButton");
 
-  const IMGBB_API_KEY = "5044ba898f1ab4b836ddce2248bf4562";
+  const IMGBB_API_KEY = "Ваш api-ключ";
 
   imageButton.addEventListener("click", async () => {
     imgBoxImage.innerHTML = "";
@@ -85,7 +85,7 @@
       imageButton.disabled = true;
 
       // Загрузка изображения на imgbb
-      const res = await fetch(`https://api.imgbb.com/1/upload?key=5044ba898f1ab4b836ddce2248bf4562`, {
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=Ваш api-ключ`, {
         method: "POST",
         body: formData
       });
