@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR код генератор</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!--  Форма для текста и URL -->
+<div class="container">
+  <p>Введите текст или URL для генерации QR кода</p>
+  <input type="text" placeholder="Введите текст или URL" id="qrText">
+
+  <div id="imgBoxText">
+    <img src="" id="qrImageText">
+  </div>
+
+  <button id="textButton">Сгенерировать QR код</button>
+</div>
+
+<!--  Форма для изображений -->
+<div class="container">
+  <p>Выберите изображение для генерации QR кода (ссылка на изображение)</p>
+  <input type="file" id="imageInput" accept="image/*">
+
+  <div id="imgBoxImage"></div>
+
+  <button id="imageButton">Загрузить и создать QR код</button>
+</div>
+
+<!-- Подключаем библиотеку QRCode.js -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
+<script>
+  // === Первая форма ===
+  const qrText = document.getElementById("qrText");
+  const qrImageText = document.getElementById("qrImageText");
+  const imgBoxText = document.getElementById("imgBoxText");
+  const textButton = document.getElementById("textButton");
+
+  function generateTextQR() {
+    const value = qrText.value.trim();
+    if (value.length > 0) {
+      qrImageText.src =
+        "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
+        encodeURIComponent(value);
+      imgBoxText.classList.add("show-img");
+    } else {
+      qrText.classList.add("error");
+      setTimeout(() => qrText.classList.remove("error"), 1000);
+    }
+  }
+
+  textButton.addEventListener("click", generateTextQR);
+  qrText.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      generateTextQR();
+    }
+  });
+
+  // === Вторая форма ===
+  const imageInput = document.getElementById("imageInput");
+  const imgBoxImage = document.getElementById("imgBoxImage");
+  const imageButton = document.getElementById("imageButton");
+
+  const IMGBB_API_KEY = "5044ba898f1ab4b836ddce2248bf4562";
+
+  imageButton.addEventListener("click", async () => {
+    imgBoxImage.innerHTML = "";
+
+    if (imageInput.files.length === 0) {
+      alert("Пожалуйста, выберите изображение.");
+      return;
+    }
+
+    const file = imageInput.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      imageButton.textContent = "Загрузка...";
+      imageButton.disabled = true;
+
+      // Загрузка изображения на imgbb
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=5044ba898f1ab4b836ddce2248bf4562`, {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+
+      if (!data.success) throw new Error("Ошибка загрузки");
+
+      const imageUrl = data.data.url;
+      console.log("URL изображения:", imageUrl);
+
+      // Генерация QR-кода из ссылки
+      new QRCode(imgBoxImage, {
+        text: imageUrl,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+    imgBoxImage.classList.add("show-img");
+
+      imageButton.textContent = "Загрузить и создать QR код";
+      imageButton.disabled = false;
+    } catch (err) {
+      console.error(err);
+      alert("Не удалось загрузить изображение.");
+      imageButton.textContent = "Загрузить и создать QR код";
+      imageButton.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

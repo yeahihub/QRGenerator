@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0e3166;
+}
+
+/* Контейнер для каждой формы */
+.container {
+    width: 400px;
+    padding: 25px 35px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.container p {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.container input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #1325ce;
+    outline: 0;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border-radius: 5px;
+}
+
+.container button {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    outline: 0;
+    background: #141b5a;
+    color: #fff;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px 0;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+/* Эффект при наведении */
+.container button:hover {
+    background: #2a3bbf;
+}
+
+#imgBoxText, #imgBoxImage {
+    width: 200px;
+    border-radius: 5px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s;
+    margin: 0 auto;
+}
+
+#imgBoxText img, #imgBoxImage img {
+    width: 100%;
+    padding: 10px;
+}
+
+#imgBoxText.show-img, #imgBoxImage.show-img {
+    max-height: 300px;
+    margin: 10px auto;
+    border: 1px solid #d1d1d1;
+}
+
+.error {
+    animation: shake 0.1s linear 10;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0px); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0px); }
+}
+/* общий стиль блока с QR */
+#imgBoxText,
+#imgBoxImage {
+    width: 200px;
+    border-radius: 5px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s;
+    margin: 0 auto;
+}
+
+#imgBoxText.show-img,
+#imgBoxImage.show-img {
+    max-height: 300px;
+    margin: 10px auto;
+    border: 1px solid #d1d1d1;
+    padding: 10px;
+}
+
+#imgBoxText img,
+#imgBoxImage img {
+    width: 100%;
+}
+
+/* кнопка при наведении */
+.container button:hover {
+    background: #2c3ebc;
+}
